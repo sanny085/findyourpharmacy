@@ -1,0 +1,1 @@
+export const PHARMACY_LIST = 'PHARMACY_LIST';
