@@ -6,7 +6,7 @@ import brandIcon from '../images/brandIcon.png';
 const Navbar = () => {
     return (
         <nav className="navbar bg-light shadow-sm">
-            <div className=" container-sm container-md mx-auto">
+            <div className="container-sm container-md mx-auto">
                 {/* <a className="navbar-brand">FindYourPharmacy</a> */}
                 <a class="navbar-brand" href="#">
                     <img src={brandIcon} alt="Brand Icon" width="120" height="60" />
