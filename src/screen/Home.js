@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import OpenShopBrand from '../images/open.png';
 import { FiSearch } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,10 +9,21 @@ const Home = () => {
     const [location, setLocation] = useState('');
     const dispatch = useDispatch();
     const selector = useSelector((state) => state);
+    useEffect(() => {
+        //debouncing the action
+        let interval = setTimeout(() => {
+            dispatch(fetchLocations(location));
+        }, 500);
+
+        return () => {
+            clearTimeout(interval);
+        };
+    }, [location]);
+
     const handleChange = (e) => {
         setLocation(e.target.value);
-        dispatch(fetchLocations(e.target.value));
     };
+
     return (
         <div className="container-sm container-md mx-auto">
             <div className="d-flex align-items-center justify-content-center" style={{ height: '75vh' }}>
@@ -42,7 +53,7 @@ const Home = () => {
                                 {selector.predictions.length > 0 ? (
                                     <table
                                         class="table position-absolute table-light table-hover overflow-hidden"
-                                        style={{ marginTop: '65px', zIndex: '1px' }}
+                                        style={{ marginTop: '75px', zIndex: '1px' }}
                                     >
                                         <tbody>
                                             {selector.predictions.map((location) => (
@@ -53,7 +64,18 @@ const Home = () => {
                                         </tbody>
                                     </table>
                                 ) : (
-                                    ''
+                                    <table
+                                        class="table position-absolute table-light table-hover overflow-hidden"
+                                        style={{ marginTop: '75px', zIndex: '1px' }}
+                                    >
+                                        <tbody>
+                                            {location && (
+                                                <tr>
+                                                    <td>No Result Founds</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
                                 )}
                             </div>
                         </form>
