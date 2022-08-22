@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import OpenShopBrand from '../images/open.png';
 import { FiSearch } from 'react-icons/fi';
+import { ImLocation } from 'react-icons/im';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchLocations } from '../api/api';
@@ -8,7 +9,7 @@ import { fetchLocations } from '../api/api';
 const Home = () => {
     const [location, setLocation] = useState('');
     const dispatch = useDispatch();
-    const selector = useSelector((state) => state);
+    const selector = useSelector((state) => state.getLocation);
     useEffect(() => {
         //debouncing the action
         let interval = setTimeout(() => {
@@ -51,31 +52,44 @@ const Home = () => {
                                 </div>
 
                                 {selector.predictions.length > 0 ? (
-                                    <table
-                                        class="table position-absolute table-light table-hover overflow-hidden"
-                                        style={{ marginTop: '75px', zIndex: '1px' }}
+                                    <div
+                                        className="card shadow-sm rounded-3 position-absolute mh-100"
+                                        style={{ width: '100%', marginTop: '80px', zIndex: '1px' }}
                                     >
-                                        <tbody>
-                                            {selector.predictions.map((location) => (
-                                                <tr>
-                                                    <td>{location.description}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                        <table class="table table-light table-hover overflow-hidden">
+                                            <tbody>
+                                                {selector.predictions.map((location) => (
+                                                    <tr className="p-3">
+                                                        <td className="border border-0">
+                                                            <span className="px-1" style={{ fontSize: '20px' }}>
+                                                                <ImLocation />
+                                                            </span>
+                                                            <span style={{ fontSize: '15px' }}>
+                                                                {location.description}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 ) : (
-                                    <table
-                                        class="table position-absolute table-light table-hover overflow-hidden"
-                                        style={{ marginTop: '75px', zIndex: '1px' }}
-                                    >
-                                        <tbody>
-                                            {location && (
-                                                <tr>
-                                                    <td>No Result Founds</td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
+                                    location && (
+                                        <div
+                                            className="card shadow-sm rounded-3 position-absolute mh-100"
+                                            style={{ width: '100%', marginTop: '80px', zIndex: '1px' }}
+                                        >
+                                            <table class="table table-light table-hover overflow-hidden">
+                                                <tbody>
+                                                    {location && (
+                                                        <tr className="p-4">
+                                                            <td className="border border-0 ">No Result Founds</td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )
                                 )}
                             </div>
                         </form>
